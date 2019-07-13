@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  tgbot:
+    build: .
+    restart: always
+    depends_on:
+     - db
+    environment:
+     - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tgbot
+    env_file: .env
+    networks:
+     - tgbot
+
+  db:
+    image: postgres:11-alpine
+    restart: always
+    volumes:
+      - tgbot_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=tgbot
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    networks:
+      - tgbot    
+
+volumes:
+  tgbot_data:
+
+networks:
+  tgbot:
