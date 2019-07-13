@@ -4,27 +4,26 @@ services:
     build: .
     restart: always
     depends_on:
-     - db
+      - db
     environment:
-     - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tgbot
+      - 'DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tgbot'
     env_file: .env
     networks:
-     - tgbot
+      - tgbot
 
   db:
-    image: postgres:11-alpine
+    image: 'postgres:11-alpine'
     restart: always
     volumes:
-      - tgbot_data:/var/lib/postgresql/data/
+      - 'tgbot_data:/var/lib/postgresql/data/'
     environment:
       - POSTGRES_DB=tgbot
       - POSTGRES_USER
       - POSTGRES_PASSWORD
     networks:
-      - tgbot    
+      - tgbot
 
 volumes:
-  tgbot_data:
-
+  tgbot_data: null
 networks:
-  tgbot:
+  tgbot: null
