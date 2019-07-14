@@ -6,7 +6,8 @@ services:
     depends_on:
       - db
     environment:
-      - 'DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tgbot'
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tgbot
+      - WAIT_HOSTS=db:5432
     env_file: .env
     networks:
       - tgbot
@@ -15,7 +16,7 @@ services:
     image: 'postgres:11-alpine'
     restart: always
     volumes:
-      - 'tgbot_data:/var/lib/postgresql/data/'
+      - tgbot_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=tgbot
       - POSTGRES_USER
@@ -24,6 +25,6 @@ services:
       - tgbot
 
 volumes:
-  tgbot_data: null
+  tgbot_data:
 networks:
-  tgbot: null
+  tgbot:

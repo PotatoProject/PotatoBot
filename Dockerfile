@@ -17,6 +17,10 @@ WORKDIR /app
 COPY . /app
 RUN chmod +x /app/entrypoint.sh
 
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.5.1/wait /wait
+RUN chmod +x /wait
+
 # Create user for execution
 RUN adduser -D user
 USER user
