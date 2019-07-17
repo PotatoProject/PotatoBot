@@ -15,7 +15,6 @@ RUN apk del .tmp-build-deps
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
-RUN chmod +x /app/entrypoint.sh
 
 ## Add the wait script to the image
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.5.1/wait /wait
@@ -23,6 +22,7 @@ RUN chmod +x /wait
 
 # Create user for execution
 RUN adduser -D user
+RUN chmod +x /app/entrypoint.sh && chown user:user /app
 USER user
 
 ENTRYPOINT ["sh", "entrypoint.sh"]
