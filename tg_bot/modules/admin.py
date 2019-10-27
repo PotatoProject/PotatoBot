@@ -71,19 +71,19 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
     user = update.effective_user  # type: Optional[User]
-
     user_id = extract_user(message, args)
+    user_member = chat.get_member(user_id)
+
     if not user_id:
         message.reply_text("You don't seem to be referring to a user.")
         return ""
 
-    user_member = chat.get_member(user_id)
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how would I demote them?")
+        message.reply_text("This person CREATED the chat, how can I demote them?")
         return ""
 
     if not user_member.status == 'administrator':
-        message.reply_text("Can't demote what wasn't promoted!")
+        message.reply_text("Can't demote who wasn't promoted!")
         return ""
 
     if user_id == bot.id:
@@ -109,7 +109,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
                                           mention_html(user_member.user.id, user_member.user.first_name))
 
     except BadRequest:
-        message.reply_text("Could not demote. I might not be admin, or the admin status was appointed by another "
+        message.reply_text("Can't demote. I might not be admin, or the admin status was appointed by another "
                            "user, so I can't act upon them!")
         return ""
 
@@ -124,10 +124,9 @@ def pin(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
 
     is_group = chat.type != "private" and chat.type != "channel"
-
     prev_message = update.effective_message.reply_to_message
-
     is_silent = True
+
     if len(args) >= 1:
         is_silent = not (args[0].lower() == 'notify' or args[0].lower() == 'loud' or args[0].lower() == 'violent')
 
